@@ -1,0 +1,8 @@
+---
+- hosts: self
+
+  tasks:
+  - name: Build docker image
+    command: docker build -t shubhamsin177/my-image /home/ubuntu/docker
+  - name: Push Image
+    command: docker push shubhamsin177/my-image
