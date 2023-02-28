@@ -1,0 +1,33 @@
+pipeline {
+    agent none
+    stages {
+        stage("poll scm"){
+            agent{
+                label "ansible"
+            }
+            steps{
+                git 'https://github.com/shubhamkumar177/javaweb.git'
+            }
+            
+        }
+        stage ("Build") {
+            agent {
+                label "ansible"
+            }
+            steps{
+                sh "mvn clean install"
+                
+            }
+        }
+        stage ("Push") {
+            agent {
+                label "ansible"
+            }
+            steps {
+                sh "cp -r web/target/*.war /home/ubuntu/docker"
+                sh "ansible-playbook /home/ubuntu/docker/playbook.yml"
+            }
+        }       
+        
+    }
+}
